@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AccountController!
+{% block title %}Mon compte
 {% endblock %}
 
 {% block body %}
@@ -17,10 +17,38 @@
 		}
 	</style>
 
-
 	<h1>Bienvenue,
-		{{ user.firstname }}</h1>
+		{{ user.firstname }}
+		{{ user.lastname }}</h1>
 	<p>Vous êtes connecté en tant que
 		{{ user.email }}</p>
 
+	<h2>Historique des commandes</h2>
+	{% if orders|length > 0 %}
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Commande n°</th>
+					<th>Date</th>
+					<th>Montant</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for order in orders %}
+					<tr>
+						<td>{{ order.id }}</td>
+						<td>{{ order.date|date('d/m/Y H:i') }}</td>
+						<td>{{ order.getTotal() }}
+							€</td>
+						<td>
+							<a href="{{ path('order_details', { id: order.id }) }}" class="btn btn-primary">Voir le détail</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% else %}
+		<p>Vous n'avez pas encore passé de commandes.</p>
+	{% endif %}
 {% endblock %}

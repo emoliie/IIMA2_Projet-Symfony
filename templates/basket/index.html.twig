@@ -6,12 +6,12 @@
 <h1>Votre panier</h1>
 
 {% if basket and basket.basketContents|length > 0 %}
-    <table>
+    <table class="table">
         <thead>
             <tr>
                 <th>Produit</th>
+                <th>Prix à l'unité</th>
                 <th>Quantité</th>
-                <th>Prix unitaire</th>
                 <th>Total</th>
                 <th>Actions</th>
             </tr>
@@ -20,14 +20,14 @@
             {% for content in basket.basketContents %}
                 <tr>
                     <td>{{ content.product.name }}</td>
-                    <td>{{ content.quantity }}</td>
                     <td>{{ content.product.price }} €</td>
+                    <td>{{ content.quantity }}</td>
                     <td>{{ content.product.price * content.quantity }} €</td>
                     <td>
-                        <a href="{{ path('app_basket_decrement', { id: content.id }) }}" class="btn btn-warning">
+                        <a href="{{ path('app_basket_decrement', { id: content.id }) }}" class="btn btn-warning btn-sm">
                             Retirer une unité
                         </a>
-                        <a href="{{ path('app_basket_remove', { id: content.id }) }}" class="btn btn-danger">
+                        <a href="{{ path('app_basket_remove', { id: content.id }) }}" class="btn btn-danger btn-sm">
                             Supprimer tout
                         </a>
                     </td>
@@ -35,7 +35,8 @@
             {% endfor %}
         </tbody>
     </table>
-    <p>Total : {{ basket.getTotal() }} €</p>
+    <p><strong>Total du panier : {{ basket.getTotal() }} €</strong></p>
+    <a href="{{ path('app_basket_checkout') }}" class="btn btn-success">Finaliser la commande</a>
 {% else %}
     <p>Votre panier est vide.</p>
 {% endif %}

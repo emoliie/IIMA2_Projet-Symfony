@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class BasketController extends AbstractController
 {
-    // gère l'ajout d'un produit au panier
+    // Gère l'ajout d'un produit au panier
     #[Route('/basket/add/{id}', name: 'app_basket_add')]
     public function addToBasket(Product $product, EntityManagerInterface $entityManager): Response
     {
@@ -65,8 +65,7 @@ class BasketController extends AbstractController
         return $this->redirectToRoute('app_basket');
     }
 
-    // affiche les produits du panier
-
+    // Affiche les produits du panier
     #[Route('/basket', name: 'app_basket')]
     public function viewBasket(EntityManagerInterface $entityManager): Response
     {
@@ -99,6 +98,7 @@ class BasketController extends AbstractController
         return $this->redirectToRoute('app_basket');
     }
 
+    // Supprime une unité du produit
     #[Route('/basket/decrement/{id}', name: 'app_basket_decrement')]
     public function decrementQuantity(BasketContent $basketContent, EntityManagerInterface $entityManager): Response
     {
@@ -117,5 +117,35 @@ class BasketController extends AbstractController
         }
 
         return $this->redirectToRoute('app_basket');
+    }
+
+    // Finalise le panier
+    #[Route('/basket/checkout', name: 'app_basket_checkout')]
+    public function checkout(EntityManagerInterface $entityManager): Response
+    {
+        $user = $this->getUser();
+
+        if (!$user) {
+            $this->addFlash('error', 'Vous devez être connecté pour finaliser une commande.');
+            return $this->redirectToRoute('app_login');
+        }
+
+        $basket = $entityManager->getRepository(Basket::class)->findOneBy([
+            'user' => $user,
+            'status' => false,
+        ]);
+
+        if (!$basket || $basket->getBasketContents()->isEmpty()) {
+            $this->addFlash('error', 'Votre panier est vide.');
+            return $this->redirectToRoute('app_basket');
+        }
+
+        // Marque le panier comme payé
+        $basket->setStatus(true);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Votre commande a été validée avec succès.');
+
+        return $this->redirectToRoute('account'); // Route vers l'historique des commandes
     }
 }
