@@ -28,14 +28,14 @@ class Product
     #[ORM\Column]
     private ?int $stock = null;
 
-    #[ORM\Column(type: Types::BLOB)]
-    private $image;
-
     /**
      * @var Collection<int, BasketContent>
      */
     #[ORM\OneToMany(targetEntity: BasketContent::class, mappedBy: 'product')]
     private Collection $basketContents;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
 
     public function __construct()
     {
@@ -95,18 +95,6 @@ class Product
         return $this;
     }
 
-    public function getImage()
-    {
-        return $this->image;
-    }
-
-    public function setImage($image): static
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, BasketContent>
      */
@@ -133,6 +121,18 @@ class Product
                 $basketContent->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): static
+    {
+        $this->image = $image;
 
         return $this;
     }
