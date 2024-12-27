@@ -1,4 +1,6 @@
 login: Connexion
-logout: Deconnexion
+logout: Déconnexion
 register: Inscription
 home: Accueil
+account: Compte
+basket: Panier

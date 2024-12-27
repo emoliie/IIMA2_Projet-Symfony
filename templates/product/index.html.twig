@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProductController!{% endblock %}
+{% block title %}{{ product.name }} - Détails{% endblock %}
 
 {% block body %}
 <style>
@@ -12,7 +12,12 @@
     <div>
         <h2>{{ product.name }}</h2>
         <p>{{ product.description }}</p>
-        <p>{{ product.price }}</p>
+        <p>Prix : {{ product.price }} €</p>
+        {% if app.user %}
+            <a href="{{ path('app_basket_add', { id: product.id }) }}" class="btn btn-primary">Ajouter au panier</a>
+        {% else %}
+            <p><a href="{{ path('app_login') }}">Connectez-vous</a> pour ajouter ce produit à votre panier.</p>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

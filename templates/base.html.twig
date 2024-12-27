@@ -18,12 +18,25 @@
 		<nav>
 			<a href="{{ path('app_app') }}">Accueil</a>
 			{% if app.user %}
+				<a href="{{ path('app_account') }}">{{ t("account")|trans }}</a>
+				<a href="{{ path('app_basket') }}">{{ t("basket")|trans }}</a>
 				<a href="{{ path('app_logout') }}">{{ t("logout")|trans }}</a>
 			{% else %}
 				<a href="{{ path('app_login') }}">{{ t("login")|trans }}</a>
 				<a href="{{ path('app_register') }}">{{ t("register")|trans }}</a>
 			{% endif %}
 		</nav>
+
+		{% for message in app.flashes('success') %}
+			<div class="alert alert-success">
+				{{ message }}
+			</div>
+		{% endfor %}
+		{% for message in app.flashes('error') %}
+			<div class="alert alert-danger">
+				{{ message }}
+			</div>
+		{% endfor %}
 
 
 		{% block body %}{% endblock %}

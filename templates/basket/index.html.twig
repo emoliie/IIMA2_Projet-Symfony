@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Votre panier{% endblock %}
+
+{% block body %}
+<h1>Votre panier</h1>
+
+{% if basket and basket.basketContents|length > 0 %}
+    <table>
+        <thead>
+            <tr>
+                <th>Produit</th>
+                <th>Quantité</th>
+                <th>Prix unitaire</th>
+                <th>Total</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for content in basket.basketContents %}
+                <tr>
+                    <td>{{ content.product.name }}</td>
+                    <td>{{ content.quantity }}</td>
+                    <td>{{ content.product.price }} €</td>
+                    <td>{{ content.product.price * content.quantity }} €</td>
+                    <td>
+                        <a href="{{ path('app_basket_decrement', { id: content.id }) }}" class="btn btn-warning">
+                            Retirer une unité
+                        </a>
+                        <a href="{{ path('app_basket_remove', { id: content.id }) }}" class="btn btn-danger">
+                            Supprimer tout
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p>Total : {{ basket.getTotal() }} €</p>
+{% else %}
+    <p>Votre panier est vide.</p>
+{% endif %}
+{% endblock %}

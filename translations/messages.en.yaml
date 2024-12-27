@@ -2,3 +2,5 @@ login: Login
 logout: Logout
 register: Register
 home: Home
+account: Account
+basket: Basket

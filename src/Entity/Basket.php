@@ -28,18 +28,11 @@ class Basket
     /**
      * @var Collection<int, BasketContent>
      */
-    #[ORM\OneToMany(targetEntity: BasketContent::class, mappedBy: 'basket')]
-    private Collection $quantity;
-
-    /**
-     * @var Collection<int, BasketContent>
-     */
-    #[ORM\OneToMany(targetEntity: BasketContent::class, mappedBy: 'basket')]
+    #[ORM\OneToMany(targetEntity: BasketContent::class, mappedBy: 'basket', cascade: ['persist', 'remove'])]
     private Collection $basketContents;
 
     public function __construct()
     {
-        $this->quantity = new ArrayCollection();
         $this->basketContents = new ArrayCollection();
     }
 
@@ -87,36 +80,6 @@ class Basket
     /**
      * @return Collection<int, BasketContent>
      */
-    public function getQuantity(): Collection
-    {
-        return $this->quantity;
-    }
-
-    public function addQuantity(BasketContent $quantity): static
-    {
-        if (!$this->quantity->contains($quantity)) {
-            $this->quantity->add($quantity);
-            $quantity->setBasket($this);
-        }
-
-        return $this;
-    }
-
-    public function removeQuantity(BasketContent $quantity): static
-    {
-        if ($this->quantity->removeElement($quantity)) {
-            // set the owning side to null (unless already changed)
-            if ($quantity->getBasket() === $this) {
-                $quantity->setBasket(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, BasketContent>
-     */
     public function getBasketContents(): Collection
     {
         return $this->basketContents;
@@ -142,5 +105,27 @@ class Basket
         }
 
         return $this;
+    }
+
+    public function getTotal(): float
+    {
+        $total = 0;
+
+        foreach ($this->basketContents as $content) {
+            $total += $content->getProduct()->getPrice() * $content->getQuantity();
+        }
+
+        return $total;
+    }
+
+    public function getItemCount(): int
+    {
+        $count = 0;
+
+        foreach ($this->basketContents as $content) {
+            $count += $content->getQuantity();
+        }
+
+        return $count;
     }
 }
