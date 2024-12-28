@@ -25,8 +25,7 @@ class LoginFormType extends AbstractType
             // RepeatedType crée deux inputs : mot de passe et confirmation du mot de passe
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'first_options' => ["label" => "Mot de passe"],
-                'second_options' => ["label" => "Confirmation du mot de passe"]
+                'first_options' => ["label" => "Mot de passe"]
             ])
             // SubmitType crée un input bouton pour soumettre le formulaire
             ->add('login', SubmitType::class);

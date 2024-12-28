@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Product;
-use App\Form\ProductType;
+use App\Form\ProductFormType;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,6 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ProductController extends AbstractController
 {
+    // Affiche le produit
     #[Route('/product/{id}', name: 'product_show', methods: ['GET'])]
     public function show(int $id, ProductRepository $productRepository): Response
     {
@@ -24,16 +25,17 @@ class ProductController extends AbstractController
             throw $this->createNotFoundException('Le produit n\'existe pas.');
         }
 
-        return $this->render('product/product.html.twig', [
+        return $this->render('product/index.html.twig', [
             'product' => $product,
         ]);
     }
 
+    // Crée la form pour qfficher le produit
     #[Route('/product', name: 'app_product', methods: ['GET', 'POST'])]
     public function createOrList(EntityManagerInterface $em, Request $request): Response
     {
         $product = new Product();
-        $form = $this->createForm(ProductType::class, $product);
+        $form = $this->createForm(ProductFormType::class, $product);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -50,7 +52,7 @@ class ProductController extends AbstractController
                     );
                 } catch (FileException $e) {
                     $this->addFlash('error', 'Impossible de téléverser l\'image.');
-                    return $this->redirectToRoute('app_product');
+                    return $this->redirectToRoute('app_app');
                 }
 
                 $product->setImage($newFilename);
@@ -71,6 +73,7 @@ class ProductController extends AbstractController
         ]);
     }
 
+    // Supprime le produit
     #[Route('/product/delete/{id}', name: 'app_product_delete', methods: ['POST'])]
     public function delete(Request $request, EntityManagerInterface $em, Product $product = null): Response
     {

@@ -146,6 +146,6 @@ class BasketController extends AbstractController
 
         $this->addFlash('success', 'Votre commande a été validée avec succès.');
 
-        return $this->redirectToRoute('account'); // Route vers l'historique des commandes
+        return $this->redirectToRoute('app_account'); // Route vers l'historique des commandes
     }
 }

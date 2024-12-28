@@ -22,7 +22,7 @@ class RegisterController extends AbstractController
 
         // Si l'utilisateur est déjà connecté, redirigez-le vers la page de compte
         if ($this->getUser()) {
-            return $this->redirectToRoute('account');
+            return $this->redirectToRoute('app_account');
         }
 
         $user = new User();
