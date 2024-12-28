@@ -22,6 +22,9 @@
 	<div class="example-wrapper">
 		<div>
 			<h2>{{ product.name }}</h2>
+			{% if product.image is not empty %}
+				<img src="{{ asset('uploads/' ~ product.image) }}" style="max-width:100px;">
+			{% endif %}
 			<p>{{ product.description }}</p>
 			<p>Prix :
 				{{ product.price }}
@@ -35,23 +38,11 @@
 			{% endif %}
 		</div>
 
-		{# <div>
-			<h1>Liste des produits</h1>
-			{% for p in products %}
-				<p>{{p.name}}</p>
-				{% if p.image is not empty %}
-					<img src="{{ asset('uploads/' ~ p.image) }}" style="max-width:100px;">
-				{% endif %}
+		{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
+			<form method="POST" action="{{ path('product_show', { id: product.id }) }}">
+				<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
+				<button type="submit" class="btn btn-danger">Supprimer le produit</button>
+			</form>
+		{% endif %}
 
-				<hr>
-			{% else %}
-				<p>Aucun produit</p>
-			{% endfor %}
-		</div> #}
-
-		{# <div>
-			<h2>Ajouter un produit</h2>
-			{{form(ajout_produit)}}
-			</div>
-		</div> #}
 	{% endblock %}

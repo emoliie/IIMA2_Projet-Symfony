@@ -16,8 +16,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProductController extends AbstractController
 {
     // Affiche le produit
-    #[Route('/product/{id}', name: 'product_show', methods: ['GET'])]
-    public function show(int $id, ProductRepository $productRepository): Response
+    #[Route('/product/{id}', name: 'product_show', methods: ['GET', 'POST'])]
+    public function show(int $id, ProductRepository $productRepository, EntityManagerInterface $em, Request $request): Response
     {
         $product = $productRepository->find($id);
 
@@ -25,72 +25,19 @@ class ProductController extends AbstractController
             throw $this->createNotFoundException('Le produit n\'existe pas.');
         }
 
+        // Vérifie la suppression
+        if ($this->isGranted('ROLE_ADMIN') || $this->isGranted('ROLE_SUPER_ADMIN')) {
+            if ($request->isMethod('POST') && $this->isCsrfTokenValid('delete' . $product->getId(), $request->request->get('_token'))) {
+                $em->remove($product);
+                $em->flush();
+
+                $this->addFlash('success', 'Produit supprimé avec succès.');
+                return $this->redirectToRoute('app_app');
+            }
+        }
+
         return $this->render('product/index.html.twig', [
             'product' => $product,
         ]);
-    }
-
-    // Crée la form pour qfficher le produit
-    #[Route('/product', name: 'app_product', methods: ['GET', 'POST'])]
-    public function createOrList(EntityManagerInterface $em, Request $request): Response
-    {
-        $product = new Product();
-        $form = $this->createForm(ProductFormType::class, $product);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            /** @var UploadedFile $imageFile */
-            $imageFile = $form->get('image')->getData();
-
-            if ($imageFile) {
-                $newFilename = uniqid() . '.' . $imageFile->guessExtension();
-
-                try {
-                    $imageFile->move(
-                        $this->getParameter('upload_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    $this->addFlash('error', 'Impossible de téléverser l\'image.');
-                    return $this->redirectToRoute('app_app');
-                }
-
-                $product->setImage($newFilename);
-            }
-
-            $em->persist($product);
-            $em->flush();
-
-            $this->addFlash('success', 'Produit ajouté avec succès.');
-            return $this->redirectToRoute('app_product');
-        }
-
-        $products = $em->getRepository(Product::class)->findAll();
-
-        return $this->render('product/index.html.twig', [
-            'products' => $products,
-            'product_form' => $form->createView(),
-        ]);
-    }
-
-    // Supprime le produit
-    #[Route('/product/delete/{id}', name: 'app_product_delete', methods: ['POST'])]
-    public function delete(Request $request, EntityManagerInterface $em, Product $product = null): Response
-    {
-        if (!$product) {
-            $this->addFlash('error', 'Produit introuvable.');
-            return $this->redirectToRoute('app_product');
-        }
-
-        if ($this->isCsrfTokenValid('delete' . $product->getId(), $request->request->get('_token'))) {
-            $em->remove($product);
-            $em->flush();
-
-            $this->addFlash('success', 'Produit supprimé avec succès.');
-        } else {
-            $this->addFlash('error', 'Token CSRF invalide.');
-        }
-
-        return $this->redirectToRoute('app_product');
     }
 }

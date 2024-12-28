@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AppController!{% endblock %}
+{% block title %}Hello AppController!
+{% endblock %}
 
 {% block body %}
 	<style>
@@ -18,25 +19,25 @@
 
 	<div class="example-wrapper">
 
-		{# Vérifie si l'utilisateur a le rôle ROLE_ADMIN ou ROLE_SUPER_ADMIN
-		{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
+		{% if add_product is not null %}
 			<div>
 				<h2>Ajouter un produit</h2>
 				{{ form(add_product) }}
-			</div>
-		{% endif %} #}
+				</div>
+			{% endif %}
 
-		<div>
-			{% for product in products %}
-				<a href="{{ path('product_show', {id: product.id}) }}">
-					<h2>{{ product.name }}</h2>
-					{% if product.image is not empty %}
-						<img src="{{ asset('uploads/' ~ product.image) }}" style="max-width:100px;">
-					{% endif %}
-					<p>{{ product.description }}</p>
-					<p>{{ product.price }} €</p>
-				</a>
-			{% endfor %}
+			<div>
+				{% for product in products %}
+					<a href="{{ path('product_show', {id: product.id}) }}">
+						<h2>{{ product.name }}</h2>
+						{% if product.image is not empty %}
+							<img src="{{ asset('uploads/' ~ product.image) }}" style="max-width:100px;">
+						{% endif %}
+						<p>{{ product.description }}</p>
+						<p>{{ product.price }}
+							€</p>
+					</a>
+				{% endfor %}
+			</div>
 		</div>
-	</div>
-{% endblock %}
+	{% endblock %}
