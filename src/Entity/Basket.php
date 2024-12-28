@@ -128,4 +128,19 @@ class Basket
 
         return $count;
     }
+
+    #[ORM\Column(type: 'integer')]
+    private ?int $userOrderNumber = null;
+
+    public function getUserOrderNumber(): ?int
+    {
+        return $this->userOrderNumber;
+    }
+
+    public function setUserOrderNumber(int $userOrderNumber): static
+    {
+        $this->userOrderNumber = $userOrderNumber;
+
+        return $this;
+    }
 }

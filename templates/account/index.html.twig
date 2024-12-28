@@ -37,7 +37,7 @@
 			<tbody>
 				{% for order in orders %}
 					<tr>
-						<td>{{ order.id }}</td>
+						<td>{{ order.userOrderNumber }}</td>
 						<td>{{ order.date|date('d/m/Y H:i') }}</td>
 						<td>{{ order.getTotal() }}
 							€</td>
