@@ -39,6 +39,7 @@
 		</div>
 
 		{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
+			<a href="{{ path('product_edit', { id: product.id }) }}" class="btn btn-primary">Modifier le produit</a>
 			<form method="POST" action="{{ path('product_show', { id: product.id }) }}">
 				<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
 				<button type="submit" class="btn btn-danger">Supprimer le produit</button>
