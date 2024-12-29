@@ -23,19 +23,17 @@
 			<h3>{{ product.description }}</h3>
 			<h3>Prix: {{ product.price }}€</h3>
 			{% if app.user %}
-				<a href="{{ path('app_basket_add', { id: product.id }) }}" class="btn btn-primary">Ajouter au panier</a>
+				<a href="{{ path('app_basket_add', { id: product.id }) }}" class="form_submit">Ajouter au panier</a>
 			{% else %}
 				<h3>
 					<a href="{{ path('app_login') }}">Connectez-vous</a>
 					pour ajouter ce produit à votre panier.</h3>
 			{% endif %}
-		</div>
-		<div>
-		{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
-			<a href="{{ path('product_edit', { id: product.id }) }}" class="btn btn-primary">Modifier le produit</a>
+			{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
+			<a href="{{ path('product_edit', { id: product.id }) }}" class="retire">Modifier le produit</a>
 			<form method="POST" action="{{ path('product_show', { id: product.id }) }}">
 				<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
-				<button type="submit" class="btn btn-danger">Supprimer le produit</button>
+				<button type="submit" class="supp">Supprimer le produit</button>
 			</form>
 		{% endif %}
 		</div>

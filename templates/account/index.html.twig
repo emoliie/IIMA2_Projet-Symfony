@@ -1,25 +1,18 @@
 {% extends 'base.html.twig' %}
 
+{% block head %}
+    {{ parent() }}
+	<link rel="stylesheet" href="{{ asset('css/account.css') }}?v={{ random() }}">
+{% endblock %}
+
 {% block title %}Mon compte{% endblock %}
 
 {% block body %}
-	<style>
-		.example-wrapper {
-			margin: 1em auto;
-			max-width: 800px;
-			width: 95%;
-			font: 18px / 1.5 sans-serif;
-		}
-		.example-wrapper code {
-			background: #F5F5F5;
-			padding: 2px 6px;
-		}
-	</style>
 
-	<h1>Bienvenue, {{ user.firstname }} {{ user.lastname }}</h1>
-	<p>Vous êtes connecté en tant que {{ user.email }}</p>
+	<h1 class="structure title">Bienvenue, {{ user.firstname }} {{ user.lastname }}</h1>
+	<p class="structure info">Vous êtes connecté en tant que {{ user.email }}</p>
 
-	<h2>Historique des commandes</h2>
+	<h3 class="structure title">Historique des commandes</h3>
 	{% if orders|length > 0 %}
 		<table class="table">
 			<thead>
@@ -37,7 +30,7 @@
 						<td>{{ order.date|date('d/m/Y H:i') }}</td>
 						<td>{{ order.getTotal() }} €</td>
 						<td>
-							<a href="{{ path('order_details', { id: order.id }) }}" class="btn btn-primary">Voir le détail</a>
+							<a href="{{ path('order_details', { id: order.id }) }}" class="final">Voir le détail</a>
 						</td>
 					</tr>
 				{% endfor %}
@@ -49,9 +42,9 @@
 
 	{# Section spécifique pour les super administrateurs #}
 	{% if is_granted('ROLE_SUPER_ADMIN') %}
-		<h2>Fonctionnalités Super Admin</h2>
+		<h2 class="title">Fonctionnalités Super Admin</h2>
 
-		<h3>Paniers non achetés</h3>
+		<h3 class="title">Paniers non achetés</h3>
 		{% if unpaidBaskets|length > 0 %}
 			<table class="table">
 				<thead>
@@ -79,7 +72,7 @@
 			<p>Aucun panier non acheté.</p>
 		{% endif %}
 
-		<h3>Utilisateurs inscrits aujourd'hui</h3>
+		<h3 class="title">Utilisateurs inscrits aujourd'hui</h3>
 		{% if usersToday|length > 0 %}
 			<table class="table">
 				<thead>

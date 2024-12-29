@@ -1,15 +1,21 @@
 {% extends 'base.html.twig' %}
 
+{% block head %}
+    {{ parent() }}
+	<link rel="stylesheet" href="{{ asset('css/product.css') }}?v={{ random() }}">
+{% endblock %}
+
+
 {% block title %}
     Modifier le produit - {{ product.name }}
 {% endblock %}
 
 {% block body %}
-    <h1>Modifier le produit - {{ product.name }}</h1>
+    <h1 class="title">Modifier le produit - {{ product.name }}</h1>
 
     {{ form_start(form) }}
         {{ form_widget(form) }}
     {{ form_end(form) }}
 
-    <a href="{{ path('product_show', { id: product.id }) }}" class="btn btn-secondary">Annuler</a>
+    <a href="{{ path('product_show', { id: product.id }) }}" class="annuler">Annuler</a>
 {% endblock %}

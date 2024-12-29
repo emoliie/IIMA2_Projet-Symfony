@@ -1,5 +1,6 @@
 body {
     background-color: #87CEEB;
+    margin: 20px;
 }
 
 nav {
@@ -24,59 +25,24 @@ a {
     transition: 0.3s;
 }
 
-.product {
-    margin: 50px;
-    display: flex;
-    justify-content: center;
-    gap: 50px;
-}
-
-
-.details {
-    margin-top: 3rem;
-}
-
-.title {
-    display: flex;
-    justify-content: center;
-    margin: 30px auto;
-}
-
-.form {
-    display: flex;
-    justify-content: center;
-    margin: 5px auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
-}
-
-label {
-    display: flex;
-    justify-content: center;
-}
-
-.form_submit {
-    display: flex;
-    justify-content: center;
-    width: 200px;
-    margin: 0 auto;
-    margin-bottom: 10px;
-    margin-top: 10px;
+.table {
     padding: 10px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
-    transition: 0.3s;
 }
 
-.form_submit:hover {
-    background-color: #6ec4e7;
-    transition: 0.3s;
+th {
+    padding-left: 20px;
+    padding-bottom: 20px;
+}
+
+td {
+    padding-left: 20px;
+    padding-top: 20px;
+}
+
+.btn {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
 .retire {
@@ -98,7 +64,6 @@ label {
 .supp {
     width: 120px;
     margin-left: 5px;
-    margin-top: 20px;
     padding: 10px;
     background-color: red;
     border-radius: 8px;
@@ -108,24 +73,6 @@ label {
 }
 
 .supp:hover {
-    background-color: rgb(194, 1, 1);
-    transition: 0.3s;
-}
-
-.annuler {
-    display: flex;
-    justify-content: center;
-    width: 120px;
-    margin: 0 auto;
-    padding: 10px;
-    background-color: red;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
-    transition: 0.3s;
-}
-
-.annuler:hover {
     background-color: rgb(194, 1, 1);
     transition: 0.3s;
 }
@@ -145,4 +92,9 @@ label {
 .final:hover {
     background-color: rgb(151, 192, 151);
     transition: 0.3s;
+}
+
+.title {
+    margin: 30px;
+    width: 25rem;
 }

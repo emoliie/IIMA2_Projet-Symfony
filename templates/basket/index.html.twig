@@ -1,5 +1,10 @@
 {% extends 'base.html.twig' %}
 
+{% block head %}
+    {{ parent() }}
+	<link rel="stylesheet" href="{{ asset('css/basket.css') }}?v={{ random() }}">
+{% endblock %}
+
 {% block title %}Votre panier{% endblock %}
 
 {% block body %}
@@ -23,11 +28,11 @@
                     <td>{{ content.product.price }} €</td>
                     <td>{{ content.quantity }}</td>
                     <td>{{ content.product.price * content.quantity }} €</td>
-                    <td>
-                        <a href="{{ path('app_basket_decrement', { id: content.id }) }}" class="btn btn-warning btn-sm">
+                    <td class="btn">
+                        <a href="{{ path('app_basket_decrement', { id: content.id }) }}" class="retire">
                             Retirer une unité
                         </a>
-                        <a href="{{ path('app_basket_remove', { id: content.id }) }}" class="btn btn-danger btn-sm">
+                        <a href="{{ path('app_basket_remove', { id: content.id }) }}" class="supp">
                             Supprimer tout
                         </a>
                     </td>
@@ -35,8 +40,8 @@
             {% endfor %}
         </tbody>
     </table>
-    <p><strong>Total du panier : {{ basket.getTotal() }} €</strong></p>
-    <a href="{{ path('app_basket_checkout') }}" class="btn btn-success">Finaliser la commande</a>
+    <h1><strong>Total du panier : {{ basket.getTotal() }} €</strong></h1>
+    <a href="{{ path('app_basket_checkout') }}" class="final">Finaliser la commande</a>
 {% else %}
     <p>Votre panier est vide.</p>
 {% endif %}

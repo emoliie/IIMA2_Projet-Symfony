@@ -79,7 +79,7 @@ Les administrateurs peuvent gérer les produits, et les super administrateurs di
 ---
 
 ## Contributeurs
-- Okaramel ([Lien GitHub d'Okaramel](https://github.com/Okaramel))
+- Okaramel ([Lien GitHub d'Okaramel](https://github.com/Okaramel)) Mathilde MORELL
 - emoliie ([Lien GitHub d'emoliie](https://github.com/emoliie))
 
 ---

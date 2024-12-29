@@ -62,7 +62,7 @@ class ProductFormType extends AbstractType
             ->add('save', SubmitType::class, [
                 'label' => 'Enregistrer',
                 'attr' => [
-                'class' => 'form',
+                'class' => 'form_submit',
             ]
             ]);
     }
