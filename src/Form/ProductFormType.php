@@ -16,28 +16,59 @@ class ProductFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
-            ->add('description')
-            ->add('price')
-            ->add('stock')
-            ->add('image', FileType::class, [
-                'label' => 'Image (jpg, jpeg, png)',
-                'mapped' => false,
-                'required' => false,
-                'constraints' => [
-                    new File([
-                        'maxSize' => '1024k',
-                        'mimeTypes' => [
-                            'image/jpg',
-                            'image/jpeg',
-                            'image/png',
-                        ],
-                        'mimeTypesMessage' => 'Please upload a valid image (jpg, jpeg, png)',
-                    ])
-                ],
-            ])
-            ->add('save', SubmitType::class, ['label' => 'Submit'])
-        ;
+        ->add('name', null, [
+            'attr' => [
+                'class' => 'form',
+                'placeholder' => 'Enter product name',
+            ],
+            'label_attr' => [
+                'class' => 'form-label',
+            ],
+        ])
+        ->add('description', null, [
+            'attr' => [
+                'class' => 'form',
+                'placeholder' => 'Enter product description',
+            ],
+        ])
+        ->add('price', null, [
+            'attr' => [
+                'class' => 'form',
+                'placeholder' => 'Enter product price',
+            ],
+        ])
+        ->add('stock', null, [
+            'attr' => [
+                'class' => 'form',
+                'placeholder' => 'Enter product stock',
+            ],
+        ])
+        ->add('image', FileType::class, [
+            'label' => 'Image (jpg, jpeg, png)',
+            'mapped' => false,
+            'required' => false,
+            'attr' => [
+                'class' => 'form',
+            ],
+            'constraints' => [
+                new File([
+                    'maxSize' => '1024k',
+                    'mimeTypes' => [
+                        'image/jpg',
+                        'image/jpeg',
+                        'image/png',
+                    ],
+                    'mimeTypesMessage' => 'Please upload a valid image (jpg, jpeg, png)',
+                ]),
+            ],
+        ])
+        ->add('save', SubmitType::class, [
+            'label' => 'Submit',
+            'attr' => [
+                'class' => 'form',
+            ],
+        ]);
+    
     }
 
     public function configureOptions(OptionsResolver $resolver): void
