@@ -30,11 +30,14 @@ class BasketController extends AbstractController
         ]);
 
         // Créer un nouveau panier s'il n'existe pas
+        $lastOrderNumber = $entityManager->getRepository(Basket::class)->findLastUserOrderNumber($user);
+
         if (!$basket) {
             $basket = new Basket();
             $basket->setUser($user);
             $basket->setDate(new \DateTime());
             $basket->setStatus(false);
+            $basket->setUserOrderNumber($lastOrderNumber + 1);
 
             $entityManager->persist($basket);
             $entityManager->flush();

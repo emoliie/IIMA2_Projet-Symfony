@@ -24,6 +24,7 @@ class BasketContent
     private ?Basket $basket = null;
 
     #[ORM\ManyToOne(inversedBy: 'basketContents')]
+    #[ORM\JoinColumn(onDelete: "CASCADE")]
     private ?Product $product = null;
 
     public function getId(): ?int

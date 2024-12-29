@@ -2,11 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Basket;
+use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\Basket;
 
 class AccountController extends AbstractController
 {
@@ -25,9 +26,31 @@ class AccountController extends AbstractController
             'status' => true, // Commandes finalisées
         ]);
 
+        // Données pour le super administrateur (si applicable)
+        $unpaidBaskets = [];
+        $usersToday = [];
+
+        if ($this->isGranted('ROLE_SUPER_ADMIN')) {
+            // Récupère les paniers non achetés
+            $unpaidBaskets = $entityManager->getRepository(Basket::class)->findBy([
+                'status' => false,
+            ]);
+
+            // Récupère les utilisateurs inscrits aujourd'hui
+            $today = new \DateTime('today');
+            $usersToday = $entityManager->getRepository(User::class)->createQueryBuilder('u')
+                ->where('u.createdAt >= :today')
+                ->setParameter('today', $today)
+                ->orderBy('u.createdAt', 'DESC')
+                ->getQuery()
+                ->getResult();
+        }
+
         return $this->render('account/index.html.twig', [
             'user' => $user,
-            'orders' => $orders, // Passe les commandes à la vue
+            'orders' => $orders, // Commandes de l'utilisateur
+            'unpaidBaskets' => $unpaidBaskets, // Paniers non achetés (pour le super admin)
+            'usersToday' => $usersToday, // Utilisateurs inscrits aujourd'hui (pour le super admin)
         ]);
     }
 }

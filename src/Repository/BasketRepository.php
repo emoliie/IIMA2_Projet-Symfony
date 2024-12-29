@@ -17,6 +17,7 @@ class BasketRepository extends ServiceEntityRepository
         parent::__construct($registry, Basket::class);
     }
 
+    // Récupère le dernier numéro de commande pour un utilisateur
     public function findLastUserOrderNumber(User $user): int
     {
         $result = $this->createQueryBuilder('b')

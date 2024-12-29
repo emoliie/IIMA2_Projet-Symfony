@@ -1,7 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mon compte
-{% endblock %}
+{% block title %}Mon compte{% endblock %}
 
 {% block body %}
 	<style>
@@ -17,11 +16,8 @@
 		}
 	</style>
 
-	<h1>Bienvenue,
-		{{ user.firstname }}
-		{{ user.lastname }}</h1>
-	<p>Vous êtes connecté en tant que
-		{{ user.email }}</p>
+	<h1>Bienvenue, {{ user.firstname }} {{ user.lastname }}</h1>
+	<p>Vous êtes connecté en tant que {{ user.email }}</p>
 
 	<h2>Historique des commandes</h2>
 	{% if orders|length > 0 %}
@@ -39,8 +35,7 @@
 					<tr>
 						<td>{{ order.userOrderNumber }}</td>
 						<td>{{ order.date|date('d/m/Y H:i') }}</td>
-						<td>{{ order.getTotal() }}
-							€</td>
+						<td>{{ order.getTotal() }} €</td>
 						<td>
 							<a href="{{ path('order_details', { id: order.id }) }}" class="btn btn-primary">Voir le détail</a>
 						</td>
@@ -50,5 +45,62 @@
 		</table>
 	{% else %}
 		<p>Vous n'avez pas encore passé de commandes.</p>
+	{% endif %}
+
+	{# Section spécifique pour les super administrateurs #}
+	{% if is_granted('ROLE_SUPER_ADMIN') %}
+		<h2>Fonctionnalités Super Admin</h2>
+
+		<h3>Paniers non achetés</h3>
+		{% if unpaidBaskets|length > 0 %}
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Utilisateur</th>
+						<th>Contenu</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for basket in unpaidBaskets %}
+						<tr>
+							<td>{{ basket.user.email }}</td>
+							<td>
+								<ul>
+									{% for content in basket.basketContents %}
+										<li>{{ content.product.name }} (Quantité : {{ content.quantity }})</li>
+									{% endfor %}
+								</ul>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% else %}
+			<p>Aucun panier non acheté.</p>
+		{% endif %}
+
+		<h3>Utilisateurs inscrits aujourd'hui</h3>
+		{% if usersToday|length > 0 %}
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Nom</th>
+						<th>Email</th>
+						<th>Date d'inscription</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for user in usersToday %}
+						<tr>
+							<td>{{ user.firstname }} {{ user.lastname }}</td>
+							<td>{{ user.email }}</td>
+							<td>{{ user.createdAt|date('d/m/Y H:i') }}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% else %}
+			<p>Aucun utilisateur inscrit aujourd'hui.</p>
+		{% endif %}
 	{% endif %}
 {% endblock %}
