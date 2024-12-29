@@ -49,7 +49,9 @@ class ProductController extends AbstractController
         EntityManagerInterface $em
     ): Response {
         // Vérifie que l'utilisateur a les droits nécessaires
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_SUPER_ADMIN')) {
+            throw $this->createAccessDeniedException('Accès refusé. Vous n\'êtes pas autorisé à modifier ce produit.');
+        }
 
         // Crée le formulaire pour modifier le produit
         $form = $this->createForm(ProductFormType::class, $product);

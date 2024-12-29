@@ -16,12 +16,20 @@ class ProductFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
-            ->add('description')
-            ->add('price')
-            ->add('stock')
+            ->add('name', null, [
+                'label' => 'Nom du produit'
+            ])
+            ->add('description', null, [
+                'label' => 'Description'
+            ])
+            ->add('price', null, [
+                'label' => 'Prix (€)'
+            ])
+            ->add('stock', null, [
+                'label' => 'Quantité en stock'
+            ])
             ->add('image', FileType::class, [
-                'label' => 'Image (jpg, jpeg, png)',
+                'label' => 'Image (formats autorisés : jpg, jpeg, png)',
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [
@@ -32,12 +40,13 @@ class ProductFormType extends AbstractType
                             'image/jpeg',
                             'image/png',
                         ],
-                        'mimeTypesMessage' => 'Please upload a valid image (jpg, jpeg, png)',
+                        'mimeTypesMessage' => 'Veuillez téléverser une image valide (jpg, jpeg, png)',
                     ])
                 ],
             ])
-            ->add('save', SubmitType::class, ['label' => 'Submit'])
-        ;
+            ->add('save', SubmitType::class, [
+                'label' => 'Enregistrer'
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
