@@ -51,7 +51,7 @@ class AppFixtures extends Fixture
             $product->setDescription('Description ' . $i);
             $product->setPrice(10.0 * $i);
             $product->setStock(100 * $i);
-            $product->setImage('https://via.placeholder.com/150');
+            $product->setImage('676ed9e6839df.jpg');
 
             $manager->persist($product);
         }

@@ -18,6 +18,7 @@
 				</div>
 			{% endif %}
 
+		<div class="list-container">
 			<div class="list_products">
 				{% for product in products %}
 					<a class="product" href="{{ path('product_show', {id: product.id}) }}">
@@ -30,6 +31,7 @@
 					</a>
 				{% endfor %}
 			</div>
+		</div>
 		</div>
 	</div>
 	{% endblock %}
