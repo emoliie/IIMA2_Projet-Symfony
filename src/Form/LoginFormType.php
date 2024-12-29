@@ -19,16 +19,27 @@ class LoginFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email', EmailType::class, [
-                'label' => 'Email',
-            ])
+        ->add('email', EmailType::class, [
+            'label' => 'Email',
+            'attr' => [
+                'class' => 'form',
+            ]
+        ])
             // RepeatedType crée deux inputs : mot de passe et confirmation du mot de passe
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'first_options' => ["label" => "Mot de passe"]
+                'first_options' => ["label" => "Mot de passe",
+            'attr' => [
+                    'class' => 'form',
+                    'placeholder' => 'Entrez votre mot de passe',
+                ]],
             ])
             // SubmitType crée un input bouton pour soumettre le formulaire
-            ->add('login', SubmitType::class);
+            ->add('login', SubmitType::class, [
+                'attr' => [
+                    'class' => 'form_submit',
+                ]
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

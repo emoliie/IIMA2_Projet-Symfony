@@ -1,0 +1,37 @@
+body {
+    background-color: #87CEEB;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 5rem;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+.navbar{
+    transition: 0.3s;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.navbar:hover {
+    background-color: #6ec4e7;
+    transition: 0.3s;
+}
+
+.product {
+    margin: 50px;
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+}
+
+
+.details {
+    margin-top: 3rem;
+}

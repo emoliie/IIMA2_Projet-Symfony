@@ -1,23 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AppController!
+{% block head %}
+    {{ parent() }}
+	<link rel="stylesheet" href="{{ asset('css/app.css') }}?v={{ random() }}">
 {% endblock %}
 
 {% block body %}
 	<style>
-		.example-wrapper {
-			margin: 1em auto;
-			max-width: 800px;
-			width: 95%;
-			font: 18px / 1.5 sans-serif;
-		}
-		.example-wrapper code {
-			background: #F5F5F5;
-			padding: 2px 6px;
-		}
 	</style>
 
-	<div class="example-wrapper">
+	<div class="product_container">
 
 		{% if add_product is not null %}
 			<div>
@@ -26,18 +18,18 @@
 				</div>
 			{% endif %}
 
-			<div>
+			<div class="list_products">
 				{% for product in products %}
-					<a href="{{ path('product_show', {id: product.id}) }}">
-						<h2>{{ product.name }}</h2>
+					<a class="product" href="{{ path('product_show', {id: product.id}) }}">
 						{% if product.image is not empty %}
-							<img src="{{ asset('uploads/' ~ product.image) }}" style="max-width:100px;">
+							<img class="product_image" src="{{ asset('uploads/' ~ product.image) }}">
 						{% endif %}
-						<p>{{ product.description }}</p>
-						<p>{{ product.price }}
-							€</p>
+						<h2 class="product_title">{{ product.name }}</h2>
+						<p class="product_price">{{ product.price }}€</p>
+						<p class="product_description">{{ product.description }}</p>
 					</a>
 				{% endfor %}
 			</div>
 		</div>
+	</div>
 	{% endblock %}

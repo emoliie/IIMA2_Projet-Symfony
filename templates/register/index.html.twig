@@ -1,7 +1,12 @@
 {% extends 'base.html.twig' %}
 
+{% block head %}
+    {{ parent() }}
+	<link rel="stylesheet" href="{{ asset('css/register.css') }}?v={{ random() }}">
+{% endblock %}
+
 {% block body %}
-	<h1>Inscription</h1>
+	<h1 class="title">Inscription</h1>
 
 	{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
 	{{ form_errors(form) }}

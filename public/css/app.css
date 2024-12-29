@@ -1,0 +1,52 @@
+body {
+    background-color: #87CEEB;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 5rem;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+.navbar{
+    transition: 0.3s;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.navbar:hover {
+    background-color: #6ec4e7;
+    transition: 0.3s;
+}
+
+
+.list_products{
+    margin-top: 50px;
+    display: flex;
+    width: 200px;
+}
+
+.product {
+    border: 1px solid black;
+    border-radius: 10px;
+    margin: 10px;
+    padding: 10px;
+}
+
+.product_price {
+    font-size: larger;
+}
+
+.product_image {
+    max-width:250px;
+    border-radius: 10px;
+}
+
+.product_description {
+    font-size: smaller;
+}
